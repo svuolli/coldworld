@@ -26,6 +26,9 @@ class GameEntity(object):
         x, y = self.location - offset
         w, h = self.image.get_size()
         surface.blit(self.image, (x-w/2, y-h))
+
+    def on_collide(self):
+        pass
         
     def set_heading(self, heading_):
     
@@ -43,9 +46,9 @@ class GameEntity(object):
         new_pos = self.location + amount
         collide = self.world.grid.getBlock(int(new_pos.x/64), int(new_pos.y/64)) != None
         collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int(new_pos.y/64)) != None)
-        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-64)/64)) != None)
-        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-64)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-48)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-48)/64)) != None)
         if collide:
-            pass
+            self.on_collide()
         else:
             self.location = new_pos
