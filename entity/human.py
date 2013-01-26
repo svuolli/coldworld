@@ -35,20 +35,20 @@ class Human(GameEntity):
         
         self.carry_image = image
         
-    def drop(self, surface):
+    def drop(self, surface, offset):
         
         if self.carry_image:
-            x, y = self.location
+            x, y = self.location - offset
             w, h = self.carry_image.get_size()
             surface.blit(self.carry_image, (x-w, y-h/2))
             self.carry_image = None
         
-    def render(self, surface):
+    def render(self, surface, offset):
         
-        GameEntity.render(self, surface)
+        GameEntity.render(self, surface, offset)
         
         if self.carry_image:
-            x, y = self.location
+            x, y = self.location - offset
             w, h = self.carry_image.get_size()
             surface.blit(self.carry_image, (x-w, y-h/2))
             

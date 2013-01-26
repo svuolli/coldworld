@@ -22,11 +22,11 @@ class Hare(GameEntity):
             self.image = self.dead_image
         self.max_speed = 140.
         
-    def render(self, surface):
+    def render(self, surface, offset):
         
-        GameEntity.render(self, surface)
+        GameEntity.render(self, surface, offset)
                 
-        x, y = self.location
+        x, y = self.location - offset
         w, h = self.image.get_size()
         bar_x = x - 12
         bar_y = y + h/2

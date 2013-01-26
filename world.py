@@ -37,11 +37,11 @@ class World(object):
         for entity in self.entities.values():
             entity.process(time_passed_seconds)
             
-    def render(self, surface):
+    def render(self, surface, offset):
         
         surface.blit(self.background, (0, 0))
         for entity in self.entities.itervalues():
-            entity.render(surface)
+            entity.render(surface, offset)
             
             
     def get_close_entity(self, name, location, range=100.):
