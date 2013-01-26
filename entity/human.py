@@ -25,10 +25,10 @@ class Human(GameEntity):
     def init_keymap(self, player_number_):
     
         self.key_map = {
-            pygame.K_LEFT: Vector2(-1, 0),
-            pygame.K_RIGHT: Vector2(1, 0),
-            pygame.K_UP: Vector2(0, -1),
-            pygame.K_DOWN: Vector2(0, 1)
+            pygame.K_LEFT: (-1, 0),
+            pygame.K_RIGHT: (1, 0),
+            pygame.K_UP: (0, -1),
+            pygame.K_DOWN: (0, 1)
         }
         
     def carry(self, image):
