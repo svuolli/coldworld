@@ -2,6 +2,7 @@
 import pygame
 from pygame.locals import *
 from random import randint, choice
+from locals import *
 
 from gameobjects.vector2 import Vector2
 
@@ -29,8 +30,8 @@ class InGameState(GameState):
             human_red.location = Vector2(randint(0, 640), randint(0, 480))
             self.world.add_entity(human_red)
             self.humans.append(human_red)
-            offset = human_count*641
-            r = pygame.Rect(offset, 0, 639, 720)
+            offset = human_count*SCREEN_SIZE[0]/2+1
+            r = pygame.Rect(offset, 0, SCREEN_SIZE[0]/2-1, SCREEN_SIZE[1])
             viewport = Viewport(r, human_red)
             self.viewports.append(viewport)
 
@@ -49,7 +50,7 @@ class InGameState(GameState):
             state_list.pop()
             return
 
-        if randint(1, 100) == 1:
+        if randint(1, 100) <= 2:
             hare = Hare(self.world, self.hare_image)
             hare.location = Vector2(-50, randint(0, 480))
             hare.heading = Vector2(1, 0)            

@@ -2,13 +2,14 @@ import pygame
 
 from gameobjects.vector2 import Vector2
 
-SCREEN_SIZE = (1280, 720)
+from locals import *
     
 class World(object):
     
     def __init__(self):
         
         self.entities = {}
+        self.render_entities = ()
         self.entity_id = 0        
         self.background = pygame.surface.Surface(SCREEN_SIZE).convert()
         self.background.fill((255, 255, 255))
