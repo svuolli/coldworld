@@ -56,7 +56,6 @@ class InGameState(GameState):
             fire.location = Vector2(randint(0, WORLD_SIZE[0]), randint(0, WORLD_SIZE[1])) * BLOCK_SIZE
             self.world.add_entity(fire)
 
-
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             self.done = True
