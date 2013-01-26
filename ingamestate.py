@@ -1,5 +1,6 @@
 
 import pygame
+import AudioSystem
 from pygame.locals import *
 from random import randint, choice
 from locals import *
@@ -13,6 +14,7 @@ from entity.grass import Grass
 from entity.hare import Hare
 from entity.fire import Fire
 from viewport import Viewport
+from AudioSystem import MusicPlayer
 
 class InGameState(GameState):
     def __init__(self):
@@ -23,9 +25,16 @@ class InGameState(GameState):
         self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
+        self.ambient = pygame.mixer.Sound("audio/generic_ambient1.wav")        
+        self.ambient.play()
+        
         self.fire_images = []
         self.hare_images_lf = []
 
+        self.player = MusicPlayer()
+        self.player.PlayTrack()
+        
+        
         for i in xrange(3):
             filename = "images/fire%i.png" % (i+1)
             image = pygame.image.load(filename).convert_alpha()
@@ -59,6 +68,8 @@ class InGameState(GameState):
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             self.done = True
+        if event.type == AudioSystem.SONG_END:            
+            self.player.PlayTrack()
 
     def update(self, passed_time, state_list):
         if self.done:

@@ -19,11 +19,10 @@ class Human(GameEntity):
         GameEntity.__init__(self, world, "human_red", image)
         
         self.carry_image = None
-        
-        self.max_speed = 90
-        
+        self.max_speed = 90        
         self.player_number = playernumber
         
+
         self.x_heading = 0
         self.y_heading = 0
         if(pygame.joystick.get_count() > 0):
@@ -80,8 +79,8 @@ class Human(GameEntity):
         else:
             x = self.joystick.get_axis(0)
             y = self.joystick.get_axis(1)
-            move_vector = Vector2(x,y)      
-           
+            move_vector = Vector2(x,y)
+            
 
         self.heading = Vector2(move_vector)
     
