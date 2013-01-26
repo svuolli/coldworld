@@ -5,7 +5,7 @@ from gameentity import GameEntity
 
 from locals import *
 
-FRAME_TIME = 0.2
+FRAME_TIME = 0.1
         
 class Hare(GameEntity):
     
@@ -13,7 +13,7 @@ class Hare(GameEntity):
         GameEntity.__init__(self, world, "hare", None)
         # self.dead_image = pygame.transform.flip(image, 0, 1)
         self.health = 25
-        self.max_speed = 80. + randint(-20, 20)
+        self.max_speed = 130. + randint(-20, 20)
         self.current_frame = 0
         self.frame_timer = FRAME_TIME
         self.images_lf = images_lf

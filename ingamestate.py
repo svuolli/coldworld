@@ -16,12 +16,14 @@ from entity.fire import Fire
 from viewport import Viewport
 from AudioSystem import MusicPlayer
 
+ground_tile_fmt = "images/ground%i.png"
+ground_tiles = map(lambda i: ground_tile_fmt % (i+1), xrange(6))
+
 class InGameState(GameState):
     def __init__(self):
         self.done = False
         self.world = World()
 
-        self.human_red_image = pygame.image.load("images/human_red.png").convert_alpha()
         self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
@@ -29,7 +31,7 @@ class InGameState(GameState):
         self.ambient.play()
         
         self.fire_images = []
-        self.hare_images_lf = []
+        self.hare_images_rf = []
 
         self.player = MusicPlayer()       
         self.wait_for_song = 12000
@@ -41,17 +43,17 @@ class InGameState(GameState):
             self.fire_images.append(image)
 
         for i in xrange(2):
-            filename = "images/davy%i.png" % (i+1)
+            filename = "images/hare%i.png" % (i+1)
             image = pygame.image.load(filename).convert_alpha()
-            self.hare_images_lf.append(image)
+            self.hare_images_rf.append(image)
 
-        self.hare_images_rf = map(lambda i: pygame.transform.flip(i, 1, 0), self.hare_images_lf)
+        self.hare_images_lf = map(lambda i: pygame.transform.flip(i, 1, 0), self.hare_images_rf)
 
         self.humans = []
         self.viewports = []
 
         for human_count in xrange(2):
-            human_red = Human(self.world, self.human_red_image, human_count+1)
+            human_red = Human(self.world, human_count+1)
             human_red.location = Vector2(randint(0, 640), randint(0, 480))
             self.world.add_entity(human_red)
             self.humans.append(human_red)

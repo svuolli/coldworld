@@ -11,20 +11,33 @@ player4Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RI
 
 players = {1:player1Keys, 2:player2Keys, 3:player3Keys, 4:player4Keys}
 
+FRAME_TIME = 0.1
+
+def loadImage(filename):
+    return pygame.image.load(filename).convert_alpha()
     
 class Human(GameEntity):
     
-    def __init__(self, world, image, playernumber):
+    def __init__(self, world, playernumber):
         
-        GameEntity.__init__(self, world, "human_red", image)
-        
+        GameEntity.__init__(self, world, "human_red", None)
+
+        fmt = "images/davy%i.png" if playernumber == 1 else "images/aslak%i.png"
+        image_files = map(lambda i: fmt%(i+1), xrange(2))
+        self.images_lf = map(lambda f: loadImage(f), image_files)
+        self.images_rf = map(lambda i: pygame.transform.flip(i, 1, 0), self.images_lf)
+
+        self.current_frame = 0
+        self.frame_timer = FRAME_TIME
+        self.left_facing = False
+
         self.carry_image = None
-        self.max_speed = 90        
+        self.max_speed = 180.        
         self.player_number = playernumber
-        
 
         self.x_heading = 0
         self.y_heading = 0
+
         if(pygame.joystick.get_count() > 0):
             self.setup_joystick()
         else:
@@ -67,13 +80,11 @@ class Human(GameEntity):
             self.carry_image = None
         
     def render(self, surface, offset):
-        
-        GameEntity.render(self, surface, offset)
-        
-        if self.carry_image:
-            x, y = self.location - offset
-            w, h = self.carry_image.get_size()
-            surface.blit(self.carry_image, (x-w, y-h/2))
+        current_frame = self.current_frame
+        image = self.images_lf[current_frame] if self.left_facing else self.images_rf[current_frame]
+        x, y = self.location - offset
+        w, h = image.get_size()
+        surface.blit(image, (x-w/2, y-h))
             
     def process(self, time_passed):
     
@@ -89,5 +100,18 @@ class Human(GameEntity):
             
 
         self.heading = Vector2(move_vector)
+        if move_vector[0] < 0.0:
+            self.left_facing = True
+        elif move_vector[0] > 0.0:
+            self.left_facing = False
+
+        if self.heading.get_length() > 0.0:
+            self.frame_timer -= time_passed
+            if self.frame_timer < 0.0:
+                self.frame_timer = FRAME_TIME
+                self.current_frame += 1
+                if self.current_frame >= len(self.images_rf):
+                    self.current_frame = 0
+
     
         GameEntity.process(self, time_passed)
