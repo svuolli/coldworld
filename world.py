@@ -2,6 +2,7 @@ import pygame
 
 from gameobjects.vector2 import Vector2
 
+from mapgrid import MapGrid
 from locals import *
     
 class World(object):
@@ -12,6 +13,7 @@ class World(object):
         self.entity_id = 0        
         self.background = pygame.surface.Surface(SPLIT_SCREEN_SIZE).convert()
         self.background.fill((255, 255, 255))
+        self.grid = MapGrid(self)
         
         self.position_sorted = []
         for y in range(0, SCREEN_SIZE[1]):
@@ -41,8 +43,12 @@ class World(object):
             entity.process(time_passed_seconds)
             
     def render(self, surface, offset):
-    
         surface.blit(self.background, (0, 0))
+
+        start_line = min(int(offset.y/BLOCK_SIZE), WORLD_SIZE[1])
+        last_line = min(start_line+13, WORLD_SIZE[1])
+        for line in xrange(start_line, last_line):
+            self.grid.render(line, surface, offset)
         
         for entity in self.entities.values():
             entity.render(surface, offset)
