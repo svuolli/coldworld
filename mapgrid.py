@@ -1,6 +1,6 @@
 
 from locals import *
-from random import choice
+from random import choice, randint
 
 import pygame
 
@@ -21,10 +21,13 @@ class MapGrid(object):
             line = []
             y = line_num * BLOCK_SIZE
             for cell in xrange(WORLD_SIZE[0]):
-                x = cell * BLOCK_SIZE
-                block = Block(world, choice(self.images))
-                block.location = Vector2(x, y)
-                line.append(block)
+                if randint(0, 99) < 3:
+                    x = cell * BLOCK_SIZE
+                    block = Block(world, choice(self.images))
+                    block.location = Vector2(x, y)
+                    line.append(block)
+                else:
+                    line.append(None)
             self.grid.append(line)
    
     def getBlock(self, x, y):
