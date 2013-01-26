@@ -12,9 +12,9 @@ class InGameState(GameState):
     def __init__(self):
         self.world = World()
 
-        self.human_red_image = pygame.image.load("human_red.png").convert_alpha()
-        self.grass_image = pygame.image.load("grass.png").convert_alpha()
-        self.hare_image = pygame.image.load("hare.png").convert_alpha()
+        self.human_red_image = pygame.image.load("images/human_red.png").convert_alpha()
+        self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
+        self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
         for human_count in xrange(1):
             human_red = Human(self.world, self.human_red_image)
