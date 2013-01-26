@@ -1,5 +1,6 @@
 
 import pygame
+import AudioSystem
 from pygame.locals import *
 from random import randint, choice
 from locals import *
@@ -30,8 +31,8 @@ class InGameState(GameState):
         self.fire_images = []
         self.hare_images_lf = []
 
-        self.music = MusicPlayer()
-        self.music.PlayTrack()
+        self.player = MusicPlayer()
+        self.player.PlayTrack()
         
         
         for i in xrange(3):
@@ -67,6 +68,8 @@ class InGameState(GameState):
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             self.done = True
+        if event.type == AudioSystem.SONG_END:            
+            self.player.PlayTrack()
 
     def update(self, passed_time, state_list):
         if self.done:
