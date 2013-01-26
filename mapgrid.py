@@ -14,14 +14,18 @@ def loadImage(filename):
 class MapGrid(object):
     def __init__(self, world):
         self.grid = []
-        self.images = map(lambda f: loadImage("images/" + f), ["davy1.png"])
+        self.images = map(lambda f: loadImage("images/" + f), [
+            "tree1.png",
+            "tree2.png",
+            "tree3.png",
+            "tree4.png"])
         print self.images
 
         for line_num in xrange(WORLD_SIZE[1]):
             line = []
             y = line_num * BLOCK_SIZE
             for cell in xrange(WORLD_SIZE[0]):
-                if randint(0, 99) < 3:
+                if randint(0, 99) < 4:
                     x = cell * BLOCK_SIZE
                     block = Block(world, choice(self.images))
                     block.location = Vector2(x, y)
@@ -31,7 +35,7 @@ class MapGrid(object):
             self.grid.append(line)
    
     def getBlock(self, x, y):
-       return grid[y][x]
+       return self.grid[y][x]
 
     def render(self, line_num, surface, offset):
         start_index = min(int(offset.x) / BLOCK_SIZE, WORLD_SIZE[0])
