@@ -34,7 +34,7 @@ class InGameState(GameState):
         pass
 
     def update(self, passed_time, state_list):
-        if randint(1, 100) == 1:
+        if randint(1, 100) <= 2:
             hare = Hare(self.world, self.hare_image)
             hare.location = Vector2(-50, randint(0, 480))
             hare.heading = Vector2(1, 0)            
