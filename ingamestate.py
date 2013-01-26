@@ -46,7 +46,6 @@ class InGameState(GameState):
         for grass_count in xrange(randint(6,10)):
             fire = Fire(self.world, self.fire_images)
             fire.location = Vector2(randint(0, 640), randint(0, 480))
-            self.world.add_entity(fire)
 
 
     def onEvent(self, event):

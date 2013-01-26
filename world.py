@@ -9,10 +9,13 @@ class World(object):
     def __init__(self):
         
         self.entities = {}
-        self.render_entities = ()
         self.entity_id = 0        
-        self.background = pygame.surface.Surface(SCREEN_SIZE).convert()
+        self.background = pygame.surface.Surface(SPLIT_SCREEN_SIZE).convert()
         self.background.fill((255, 255, 255))
+        
+        self.position_sorted = []
+        for y in range(0, SCREEN_SIZE[1]):
+            self.position_sorted.append([])
         
     def add_entity(self, entity):
         
@@ -38,9 +41,10 @@ class World(object):
             entity.process(time_passed_seconds)
             
     def render(self, surface, offset):
-        
+    
         surface.blit(self.background, (0, 0))
-        for entity in self.entities.itervalues():
+        
+        for entity in self.entities.values():
             entity.render(surface, offset)
             
             
