@@ -20,7 +20,7 @@ class Human(GameEntity):
         
         self.carry_image = None
         
-        self.max_speed = 50
+        self.max_speed = 90
         
         self.player_number = playernumber
         
