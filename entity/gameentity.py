@@ -11,6 +11,7 @@ class GameEntity(object):
         self.image = image
         self.location = Vector2(0, 0)
         self.heading = Vector2(0, 0)
+        self.previous_heading = Vector2(0, 0)
         self.max_speed = 0.
         
         self.brain = StateMachine()
@@ -31,14 +32,32 @@ class GameEntity(object):
     
         self.heading = heading_
         
+    def start_walking_sound(self):
+        pass
+        
+    def stop_walking_sound(self):
+        pass
+        
     def process(self, time_passed):
         
         self.brain.think()
         
         if self.heading.get_length() > 0:
+        
+            if self.previous_heading.get_length() == 0:
+                self.start_walking_sound()
+        
+            if self.world.grid.getBlock(
+                int(self.location[0] / 64 + self.heading[0]),
+                int(self.location[1] / 64 + self.heading[1])
+            ) == None:
+                travel_distance = time_passed * self.max_speed
+                self.move(self.heading.normalise() * time_passed * self.max_speed)
+        
+        elif self.previous_heading.get_length > 0:
+            self.stop_walking_sound()
                 
-            travel_distance = time_passed * self.max_speed
-            self.move(self.heading.normalise() * time_passed * self.max_speed)
+        self.previous_heading = self.heading
         
     def move(self, amount):
         
