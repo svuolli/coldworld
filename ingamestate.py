@@ -26,13 +26,13 @@ class InGameState(GameState):
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
         self.ambient = pygame.mixer.Sound("audio/generic_ambient1.wav")        
-        self.ambient.play()
+        self.ambient.play(-1)
         
         self.fire_images = []
         self.hare_images_lf = []
 
         self.player = MusicPlayer()       
-        self.wait_for_song = 12000
+        self.wait_for_song = 1200
         self.music_playing = False
         
         for i in xrange(3):
@@ -85,11 +85,11 @@ class InGameState(GameState):
             self.world.add_entity(hare)
 
         if not self.music_playing:
-            self.wait_for_song -= passed_time
+            self.wait_for_song -= passed_time            
             if self.wait_for_song < 0.0:
                 self.player.PlayTrack()
                 self.music_playing = True
-                self.wait_for_music = randint(5000,20000)
+                self.wait_for_song = randint(5000,20000)
                 
         self.world.process(passed_time)
 
