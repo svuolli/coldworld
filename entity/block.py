@@ -9,4 +9,4 @@ class Block(GameEntity):
         image = self.image
         x, y = self.location - offset
         w, h = image.get_size()
-        surface.blit(image, (x-w, y-h/2))
+        surface.blit(image, (x-w/2, y-h))

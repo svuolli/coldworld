@@ -26,7 +26,10 @@ class GameEntity(object):
         
         x, y = self.location - offset
         w, h = self.image.get_size()
-        surface.blit(self.image, (x-w/2, y-h/2))
+        surface.blit(self.image, (x-w/2, y-h))
+
+    def on_collide(self):
+        pass
         
     def set_heading(self, heading_):
     
@@ -43,22 +46,24 @@ class GameEntity(object):
         self.brain.think()
         
         if self.heading.get_length() > 0:
+            travel_distance = time_passed * self.max_speed
+            self.move(self.heading.normalise() * time_passed * self.max_speed)
         
             if self.previous_heading.get_length() == 0:
                 self.start_walking_sound()
         
-            if self.world.grid.getBlock(
-                int(self.location[0] / 64 + self.heading[0]),
-                int(self.location[1] / 64 + self.heading[1])
-            ) == None:
-                travel_distance = time_passed * self.max_speed
-                self.move(self.heading.normalise() * time_passed * self.max_speed)
-        
-        elif self.previous_heading.get_length > 0:
+        elif self.previous_heading.get_length() > 0:
             self.stop_walking_sound()
                 
         self.previous_heading = self.heading
         
     def move(self, amount):
-        
-        self.location += amount
+        new_pos = self.location + amount
+        collide = self.world.grid.getBlock(int(new_pos.x/64), int(new_pos.y/64)) != None
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int(new_pos.y/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-48)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-48)/64)) != None)
+        if collide:
+            self.on_collide()
+        else:
+            self.location = new_pos

@@ -28,14 +28,17 @@ class MapGrid(object):
                 if randint(0, 99) < 4:
                     x = cell * BLOCK_SIZE
                     block = Block(world, choice(self.images))
-                    block.location = Vector2(x, y)
+                    image_size = block.image.get_size()
+                    block.location = Vector2(x+image_size[0]/2, y+BLOCK_SIZE)
                     line.append(block)
                 else:
                     line.append(None)
             self.grid.append(line)
    
     def getBlock(self, x, y):
-       return self.grid[y][x]
+        if x<0 or x>=WORLD_SIZE[0] or y<0 or y>=WORLD_SIZE[1]:
+            return None
+        return self.grid[y][x]
 
     def render(self, line_num, surface, offset):
         start_index = min(int(offset.x) / BLOCK_SIZE, WORLD_SIZE[0])
