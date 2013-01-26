@@ -10,19 +10,29 @@ from world import World
 from entity.human import Human
 from entity.grass import Grass
 from entity.hare import Hare
+from viewport import Viewport
 
 class InGameState(GameState):
     def __init__(self):
+        self.done = False
         self.world = World()
 
         self.human_red_image = pygame.image.load("images/human_red.png").convert_alpha()
         self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
-        for human_count in xrange(1):
+        self.humans = []
+        self.viewports = []
+
+        for human_count in xrange(2):
             human_red = Human(self.world, self.human_red_image)
             human_red.location = Vector2(randint(0, 640), randint(0, 480))
             self.world.add_entity(human_red)
+            self.humans.append(human_red)
+            offset = human_count*641
+            r = pygame.Rect(offset, 0, 639, 720)
+            viewport = Viewport(r, human_red)
+            self.viewports.append(viewport)
 
         for grass_count in xrange(randint(6,10)):
             grass = Grass(self.world, self.grass_image)
@@ -31,9 +41,14 @@ class InGameState(GameState):
 
 
     def onEvent(self, event):
-        pass
+        if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
+            self.done = True
 
     def update(self, passed_time, state_list):
+        if self.done:
+            state_list.pop()
+            return
+
         if randint(1, 100) == 1:
             hare = Hare(self.world, self.hare_image)
             hare.location = Vector2(-50, randint(0, 480))
@@ -43,5 +58,7 @@ class InGameState(GameState):
         self.world.process(passed_time)
 
     def render(self, screen):
-        self.world.render(screen)
+        for viewport in self.viewports:
+            viewport.render(screen)
+        # self.world.render(screen)
 
