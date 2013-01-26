@@ -31,9 +31,9 @@ class InGameState(GameState):
         self.fire_images = []
         self.hare_images_lf = []
 
-        self.player = MusicPlayer()
-        self.player.PlayTrack()
-        
+        self.player = MusicPlayer()       
+        self.wait_for_song = 12000
+        self.music_playing = False
         
         for i in xrange(3):
             filename = "images/fire%i.png" % (i+1)
@@ -68,8 +68,10 @@ class InGameState(GameState):
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
             self.done = True
-        if event.type == AudioSystem.SONG_END:            
-            self.player.PlayTrack()
+        if event.type == AudioSystem.SONG_END:
+            self.music_playing = False
+            
+            
 
     def update(self, passed_time, state_list):
         if self.done:
@@ -82,6 +84,13 @@ class InGameState(GameState):
             hare.heading = Vector2(1, 0)            
             self.world.add_entity(hare)
 
+        if not self.music_playing:
+            self.wait_for_song -= passed_time
+            if self.wait_for_song < 0.0:
+                self.player.PlayTrack()
+                self.music_playing = True
+                self.wait_for_music = randint(5000,20000)
+                
         self.world.process(passed_time)
 
     def render(self, screen):

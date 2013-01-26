@@ -37,7 +37,13 @@ class Human(GameEntity):
             joy_n = 1
         self.joycontrol = joy_n
         self.joystick = pygame.joystick.Joystick(joy_n)
-        self.joystick.init()        
+        self.joystick.init()
+
+    def start_walking_sound(self):
+        pass #start play
+        
+    def stop_walking_sound(self):
+        pass #end play
         
     def init_keymap(self, player_number_):
     
