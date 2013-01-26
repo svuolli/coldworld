@@ -26,7 +26,7 @@ class InGameState(GameState):
         self.viewports = []
 
         for human_count in xrange(2):
-            human_red = Human(self.world, self.human_red_image)
+            human_red = Human(self.world, self.human_red_image, human_count+1)
             human_red.location = Vector2(randint(0, 640), randint(0, 480))
             self.world.add_entity(human_red)
             self.humans.append(human_red)

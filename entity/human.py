@@ -3,8 +3,8 @@ from gameobjects.vector2 import Vector2
 
 from gameentity import GameEntity
 
-player1Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
-player2Keys = {'UP':pygame.K_w, 'DOWN':pygame.K_s, 'LEFT':pygame.K_a, 'RIGHT':pygame.K_d }
+player1Keys = {'UP':pygame.K_w, 'DOWN':pygame.K_s, 'LEFT':pygame.K_a, 'RIGHT':pygame.K_d }
+player2Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
 player3Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
 player4Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
 
@@ -12,7 +12,7 @@ players = {1:player1Keys, 2:player2Keys, 3:player3Keys, 4:player4Keys}
     
 class Human(GameEntity):
     
-    def __init__(self, world, image):
+    def __init__(self, world, image, playernumber):
         
         GameEntity.__init__(self, world, "human_red", image)
         
@@ -20,7 +20,7 @@ class Human(GameEntity):
         
         self.max_speed = 50
         
-        self.player_number = 1
+        self.player_number = playernumber
     
         self.x_heading = 0
         self.y_heading = 0
