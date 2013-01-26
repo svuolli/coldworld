@@ -1,4 +1,9 @@
+import pygame
+from random import randint, choice
+
 from gameentity import GameEntity
+
+SCREEN_SIZE = (1280, 720)
         
         
 class Hare(GameEntity):
@@ -7,15 +12,15 @@ class Hare(GameEntity):
         GameEntity.__init__(self, world, "hare", image)
         self.dead_image = pygame.transform.flip(image, 0, 1)
         self.health = 25
-        self.speed = 50. + randint(-20, 20)
+        self.max_speed = 50. + randint(-20, 20)
         
     def bitten(self):
         
         self.health -= 1
         if self.health <= 0:
-            self.speed = 0.
+            self.max_speed = 0.
             self.image = self.dead_image
-        self.speed = 140.
+        self.max_speed = 140.
         
     def render(self, surface):
         
