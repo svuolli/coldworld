@@ -36,11 +36,9 @@ class GameEntity(object):
         self.brain.think()
         
         if self.heading.get_length() > 0:
-        
+                
             travel_distance = time_passed * self.max_speed
-            self.location += travel_distance * self.heading
-            
-            self.move(self.heading * time_passed * self.max_speed)
+            self.move(self.heading.normalise() * time_passed * self.max_speed)
         
     def move(self, amount):
         

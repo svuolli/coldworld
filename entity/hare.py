@@ -13,7 +13,7 @@ class Hare(GameEntity):
         GameEntity.__init__(self, world, "hare", None)
         # self.dead_image = pygame.transform.flip(image, 0, 1)
         self.health = 25
-        self.max_speed = 50. + randint(-20, 20)
+        self.max_speed = 80. + randint(-20, 20)
         self.current_frame = 0
         self.frame_timer = FRAME_TIME
         self.images_lf = images_lf
@@ -25,7 +25,7 @@ class Hare(GameEntity):
         self.health -= 1
         if self.health <= 0:
             self.max_speed = 0.
-            self.image = self.dead_image
+            #self.image = self.dead_image
         self.max_speed = 140.
         
     def render(self, surface, offset):
