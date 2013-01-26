@@ -21,9 +21,9 @@ class GameEntity(object):
     
         pass
         
-    def render(self, surface):
+    def render(self, surface, offset):
         
-        x, y = self.location
+        x, y = self.location - offset
         w, h = self.image.get_size()
         surface.blit(self.image, (x-w/2, y-h/2))
         
