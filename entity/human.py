@@ -1,9 +1,14 @@
 import pygame
-
 from gameobjects.vector2 import Vector2
 
 from gameentity import GameEntity
-   
+
+player1Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
+player2Keys = {'UP':pygame.K_w, 'DOWN':pygame.K_s, 'LEFT':pygame.K_a, 'RIGHT':pygame.K_d }
+player3Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
+player4Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
+
+players = {1:player1Keys, 2:player2Keys, 3:player3Keys, 4:player4Keys}
     
 class Human(GameEntity):
     
@@ -25,10 +30,10 @@ class Human(GameEntity):
     def init_keymap(self, player_number_):
     
         self.key_map = {
-            pygame.K_LEFT: (-1, 0),
-            pygame.K_RIGHT: (1, 0),
-            pygame.K_UP: (0, -1),
-            pygame.K_DOWN: (0, 1)
+            players[self.player_number]['LEFT']: (-1, 0),
+            players[self.player_number]['RIGHT']: (1, 0),
+            players[self.player_number]['UP']: (0, -1),
+            players[self.player_number]['DOWN']: (0, 1)
         }
         
     def carry(self, image):
