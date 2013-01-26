@@ -11,6 +11,7 @@ from world import World
 from entity.human import Human
 from entity.grass import Grass
 from entity.hare import Hare
+from entity.fire import Fire
 from viewport import Viewport
 
 class InGameState(GameState):
@@ -21,6 +22,13 @@ class InGameState(GameState):
         self.human_red_image = pygame.image.load("images/human_red.png").convert_alpha()
         self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
+
+        self.fire_images = []
+
+        for i in xrange(3):
+            filename = "images/fire%i.png" % (i+1)
+            image = pygame.image.load(filename).convert_alpha()
+            self.fire_images.append(image)
 
         self.humans = []
         self.viewports = []
@@ -36,9 +44,9 @@ class InGameState(GameState):
             self.viewports.append(viewport)
 
         for grass_count in xrange(randint(6,10)):
-            grass = Grass(self.world, self.grass_image)
-            grass.location = Vector2(randint(0, 640), randint(0, 480))
-            self.world.add_entity(grass)
+            fire = Fire(self.world, self.fire_images)
+            fire.location = Vector2(randint(0, 640), randint(0, 480))
+            self.world.add_entity(fire)
 
 
     def onEvent(self, event):
