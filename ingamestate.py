@@ -6,7 +6,10 @@ from random import randint, choice
 from gameobjects.vector2 import Vector2
 
 from gamestate import GameState
-from world import World, Human, Grass, Hare
+from world import World
+from entity.human import Human
+from entity.grass import Grass
+from entity.hare import Hare
 
 class InGameState(GameState):
     def __init__(self):
@@ -34,7 +37,7 @@ class InGameState(GameState):
         if randint(1, 100) == 1:
             hare = Hare(self.world, self.hare_image)
             hare.location = Vector2(-50, randint(0, 480))
-            hare.destination = Vector2(640+50, randint(0, 480))            
+            hare.heading = Vector2(1, 0)            
             self.world.add_entity(hare)
 
         self.world.process(passed_time)
