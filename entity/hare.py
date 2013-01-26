@@ -33,7 +33,7 @@ class Hare(GameEntity):
         image = self.images_lf[current_frame] if self.left_facing else self.images_rf[current_frame]
         x, y = self.location - offset
         w, h = image.get_size()
-        surface.blit(image, (x-w/2, y-h/2))
+        surface.blit(image, (x-w/2, y-h))
         
     def process(self, time_passed):
         self.frame_timer -= time_passed

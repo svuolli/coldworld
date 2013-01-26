@@ -58,7 +58,7 @@ class Human(GameEntity):
         if self.carry_image:
             x, y = self.location - offset
             w, h = self.carry_image.get_size()
-            surface.blit(self.carry_image, (x-w, y-h/2))
+            surface.blit(self.carry_image, (x-w/2, y-h))
             self.carry_image = None
         
     def render(self, surface, offset):

@@ -18,7 +18,7 @@ class Fire(GameEntity):
         image = self.images[self.current_frame]
         x, y = self.location - offset
         w, h = image.get_size()
-        surface.blit(self.images[self.current_frame], (x-w, y-h/2))
+        surface.blit(self.images[self.current_frame], (x-w/2, y-h))
 
     def process(self, time_passed):
         self.frame_timer -= time_passed

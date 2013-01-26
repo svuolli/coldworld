@@ -25,7 +25,7 @@ class GameEntity(object):
         
         x, y = self.location - offset
         w, h = self.image.get_size()
-        surface.blit(self.image, (x-w/2, y-h/2))
+        surface.blit(self.image, (x-w/2, y-h))
         
     def set_heading(self, heading_):
     
@@ -36,14 +36,16 @@ class GameEntity(object):
         self.brain.think()
         
         if self.heading.get_length() > 0:
-        
-            if self.world.grid.getBlock(
-                int(self.location[0] / 64 + self.heading[0]),
-                int(self.location[1] / 64 + self.heading[1])
-            ) == None:
-                travel_distance = time_passed * self.max_speed
-                self.move(self.heading.normalise() * time_passed * self.max_speed)
+            travel_distance = time_passed * self.max_speed
+            self.move(self.heading.normalise() * time_passed * self.max_speed)
         
     def move(self, amount):
-        
-        self.location += amount
+        new_pos = self.location + amount
+        collide = self.world.grid.getBlock(int(new_pos.x/64), int(new_pos.y/64)) != None
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int(new_pos.y/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-64)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-64)/64)) != None)
+        if collide:
+            pass
+        else:
+            self.location = new_pos
