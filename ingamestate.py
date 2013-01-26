@@ -24,11 +24,19 @@ class InGameState(GameState):
         self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
 
         self.fire_images = []
+        self.hare_images_lf = []
 
         for i in xrange(3):
             filename = "images/fire%i.png" % (i+1)
             image = pygame.image.load(filename).convert_alpha()
             self.fire_images.append(image)
+
+        for i in xrange(2):
+            filename = "images/davy%i.png" % (i+1)
+            image = pygame.image.load(filename).convert_alpha()
+            self.hare_images_lf.append(image)
+
+        self.hare_images_rf = map(lambda i: pygame.transform.flip(i, 1, 0), self.hare_images_lf)
 
         self.humans = []
         self.viewports = []
@@ -43,9 +51,9 @@ class InGameState(GameState):
             viewport = Viewport(r, human_red)
             self.viewports.append(viewport)
 
-        for grass_count in xrange(randint(6,10)):
+        for fire_count in xrange(randint(10,50)):
             fire = Fire(self.world, self.fire_images)
-            fire.location = Vector2(randint(0, 640), randint(0, 480))
+            fire.location = Vector2(randint(0, WORLD_SIZE[0]), randint(0, WORLD_SIZE[1])) * BLOCK_SIZE
             self.world.add_entity(fire)
 
 
@@ -59,7 +67,7 @@ class InGameState(GameState):
             return
 
         if randint(1, 100) <= 2:
-            hare = Hare(self.world, self.hare_image)
+            hare = Hare(self.world, self.hare_images_lf, self.hare_images_rf)
             hare.location = Vector2(-50, randint(0, 480))
             hare.heading = Vector2(1, 0)            
             self.world.add_entity(hare)
@@ -69,5 +77,4 @@ class InGameState(GameState):
     def render(self, screen):
         for viewport in self.viewports:
             viewport.render(screen)
-        # self.world.render(screen)
 
