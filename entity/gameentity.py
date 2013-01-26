@@ -36,9 +36,13 @@ class GameEntity(object):
         self.brain.think()
         
         if self.heading.get_length() > 0:
-                
-            travel_distance = time_passed * self.max_speed
-            self.move(self.heading.normalise() * time_passed * self.max_speed)
+        
+            if self.world.grid.getBlock(
+                int(self.location[0] / 64 + self.heading[0]),
+                int(self.location[1] / 64 + self.heading[1])
+            ) == None:
+                travel_distance = time_passed * self.max_speed
+                self.move(self.heading.normalise() * time_passed * self.max_speed)
         
     def move(self, amount):
         

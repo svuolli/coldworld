@@ -50,7 +50,9 @@ class World(object):
         for line in xrange(start_line, last_line):
             self.grid.render(line, surface, offset)
         
-        for entity in self.entities.values():
+        entities_sorted = sorted(self.entities.values(), key=lambda entity: entity.location[1])
+        
+        for entity in entities_sorted:
             entity.render(surface, offset)
             
             
