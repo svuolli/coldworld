@@ -20,11 +20,11 @@ from AudioSystem import MusicPlayer
 class EndState(GameState):
     def __init__(self, p1, p2):
         self.done = False
-        # self.image = pygame.image.load("images/title_screen.png")
-        # w, h = self.image.get_size()
-        # x, y = ((1280-w)/2, (720-h)/2)
-        # self.pos = (x,y)
-        # self.start_game = False
+        self.image = pygame.image.load("images/game_over.png")
+        w, h = self.image.get_size()
+        x, y = ((1280-w)/2, (720-h)/2)
+        self.pos = (x,y)
+
         self.font = pygame.font.SysFont("arial", 24)
         self.points = (p1, p2)
         fmt = "%s survived for %.2f seconds"
@@ -46,9 +46,10 @@ class EndState(GameState):
 
     def render(self, screen):
         screen.fill((255, 255, 255))
-
+        
+        screen.blit(self.image, self.pos)
         w, h = self.text_imgs[1].get_size()
-        screen.blit(self.text_imgs[0], (20, 310))
-        screen.blit(self.text_imgs[1], (1260-w, 310))
+        screen.blit(self.text_imgs[0], (20, 700-h))
+        screen.blit(self.text_imgs[1], (1260-w, 700-h))
 
         # screen.blit(self.image, self.pos)

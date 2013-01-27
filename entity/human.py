@@ -3,6 +3,7 @@ from gameobjects.vector2 import Vector2
 from locals import *
 
 from gameentity import GameEntity
+from entity.block import Block
 
 player1Keys = {'UP':pygame.K_w, 'DOWN':pygame.K_s, 'LEFT':pygame.K_a, 'RIGHT':pygame.K_d }
 player2Keys = {'UP':pygame.K_UP, 'DOWN':pygame.K_DOWN, 'LEFT':pygame.K_LEFT, 'RIGHT':pygame.K_RIGHT }
@@ -153,6 +154,9 @@ class Human(GameEntity):
         if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)
             self.world.human_count -= 1
+            tomb_stone = Block(self.world, loadImage("images/tomb.png"))
+            tomb_stone.location = self.location
+            self.world.add_entity(tomb_stone)
         
         self.hunger_image_index = min(5,int(6.0*self.hunger/120.0))
         self.thirst_image_index = min(5,int(6.0*self.thirst/120.0))
