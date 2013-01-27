@@ -101,6 +101,16 @@ class InGameState(GameState):
             state_list.pop()
             return
 
+        distance_of_humans = self.humans[0].location.get_distance_to(self.humans[1].location)
+        if distance_of_humans < 40:
+            hunger = self.humans[0].hunger + self.humans[1].hunger
+            thirst = self.humans[0].thirst + self.humans[1].thirst
+            heat = self.humans[0].heat + self.humans[1].heat
+            for h in self.humans:
+                h.hunger = hunger / 2.0
+                h.thirst = thirst / 2.0
+                h.heat = heat / 2.0
+
         if self.world.hare_count < 30:
             self.hare_timer -= passed_time
 
