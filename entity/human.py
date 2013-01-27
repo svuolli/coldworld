@@ -1,5 +1,6 @@
 import pygame
 from gameobjects.vector2 import Vector2
+from locals import *
 
 from gameentity import GameEntity
 
@@ -35,28 +36,29 @@ class Human(GameEntity):
         self.max_speed = 180.        
         self.player_number = playernumber
 
+        self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav")}
+        
         self.x_heading = 0
         self.y_heading = 0
 
-        if(pygame.joystick.get_count() > 0):
+        if(pygame.joystick.get_count() > JOYSTICK_IN_USE):
             self.setup_joystick()
         else:
             self.joycontrol = -1
             self.init_keymap(self.player_number)
 
     def setup_joystick(self):
-        joy_n = 0
-        if(self.player_number == 1):
-            joy_n = 1
+        joy_n = JOYSTICK_IN_USE        
         self.joycontrol = joy_n
         self.joystick = pygame.joystick.Joystick(joy_n)
         self.joystick.init()
+        JOYSTICK_IN_USE +=1
 
     def start_walking_sound(self):
-        pass #start play
+        self.sounds["walk"].play()
         
     def stop_walking_sound(self):
-        pass #end play
+        self.sounds["walk"].stop()
         
     def init_keymap(self, player_number_):
     
