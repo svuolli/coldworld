@@ -13,6 +13,7 @@ from entity.human import Human
 from entity.grass import Grass
 from entity.hare import Hare
 from entity.fire import Fire
+from entity.water import Water
 from viewport import Viewport
 from AudioSystem import MusicPlayer
 
@@ -24,14 +25,12 @@ class InGameState(GameState):
         self.done = False
         self.world = World()
 
-        self.grass_image = pygame.image.load("images/grass.png").convert_alpha()
-        self.hare_image = pygame.image.load("images/hare.png").convert_alpha()
-
         self.ambient = pygame.mixer.Sound("audio/generic_ambient1.wav")        
         self.ambient.play(-1)
         
         self.fire_images = []
         self.hare_images_rf = []
+        self.water_images = []
 
         self.player = MusicPlayer()       
         self.wait_for_song = 1200
@@ -46,6 +45,11 @@ class InGameState(GameState):
             filename = "images/hare%i.png" % (i+1)
             image = pygame.image.load(filename).convert_alpha()
             self.hare_images_rf.append(image)
+
+        for i in xrange(2):
+            filename = "images/water%i.png" % (i+1)
+            image = pygame.image.load(filename).convert_alpha()
+            self.water_images.append(image)
 
         self.hare_images_lf = map(lambda i: pygame.transform.flip(i, 1, 0), self.hare_images_rf)
 
@@ -66,6 +70,11 @@ class InGameState(GameState):
             fire = Fire(self.world, self.fire_images)
             fire.location = self.get_safe_spot()
             self.world.add_entity(fire)
+
+        for water_count in xrange(randint(5, 10)):
+            water = Water(self.world, self.water_images)
+            water.location = self.get_safe_spot()
+            self.world.add_entity(water)
 
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -102,4 +111,10 @@ class InGameState(GameState):
     def render(self, screen):
         for viewport in self.viewports:
             viewport.render(screen)
+        for plr in xrange(2):
+            x = plr*640 + 260
+            y = 20
+            screen.fill((0, 255, 0), (x, y+00, int(self.humans[plr].hunger), 10))
+            screen.fill((0, 0, 255), (x, y+10, int(self.humans[plr].thirst), 10))
+            screen.fill((255, 0, 0), (x, y+20, int(self.humans[plr].heat), 10))
 

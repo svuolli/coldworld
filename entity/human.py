@@ -40,7 +40,9 @@ class Human(GameEntity):
         self.thirst = 100.0
         self.heat = 100.0
 
-        self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav")}
+        self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav"),
+                "eat":pygame.mixer.Sound("audio/eat.wav"),
+                }
         
         self.x_heading = 0
         self.y_heading = 0
@@ -59,7 +61,7 @@ class Human(GameEntity):
         JOYSTICK_IN_USE +=1
 
     def start_walking_sound(self):
-        self.sounds["walk"].play()
+        self.sounds["walk"].play(-1)
         
     def stop_walking_sound(self):
         self.sounds["walk"].stop()
@@ -93,9 +95,9 @@ class Human(GameEntity):
         surface.blit(image, (x-w/2, y-h))
             
     def process(self, time_passed):
-        self.hunger -= time_passed
-        self.thirst -= time_passed
-        self.heat -= time_passed
+        self.hunger -= time_passed*2.5
+        self.thirst -= time_passed*2.5
+        self.heat -= time_passed*2.5
     
         pressed = pygame.key.get_pressed()
         move_vector = (0, 0)
@@ -127,9 +129,13 @@ class Human(GameEntity):
         if hare:
             self.hunger = min(self.hunger+20.0, 120.0)
             self.world.remove_entity(hare)
+            self.sounds["eat"].play()
         fire = self.world.get_close_entity("fire", self.location, 80)
         if fire:
-            self.heat = min(self.heat+time_passed*5.0, 120)
+            self.heat = min(self.heat+time_passed*20.0, 120)
+        water = self.world.get_close_entity("water", self.location, 80)
+        if water:
+            self.thirst = min(self.thirst+time_passed*20.0, 120)
 
-        if self.hunger < 0.0 or self.heat < 0.0:
+        if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)

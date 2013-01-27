@@ -47,9 +47,6 @@ class Hare(GameEntity):
                     self.current_frame = 0
         
         x, y = self.location
-        if x > SCREEN_SIZE[0] + 2:
-            self.world.remove_entity(self)
-            return
         
         GameEntity.process(self, time_passed)
         if self.heading.x < 0.0:
