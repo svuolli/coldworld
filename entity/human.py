@@ -140,3 +140,4 @@ class Human(GameEntity):
 
         if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)
+            self.world.human_count -= 1
