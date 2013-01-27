@@ -13,6 +13,7 @@ class Fire(GameEntity):
         self.images = images
         self.current_frame = randint(0,2)
         self.frame_timer = randint(0, 100)/100.0
+        self.life_time = 30.0 + randint(1, 15)
 
     def render(self, surface, offset):
         image = self.images[self.current_frame]
@@ -22,6 +23,10 @@ class Fire(GameEntity):
 
     def process(self, time_passed):
         self.frame_timer -= time_passed
+        self.life_time -= time_passed
+        if self.life_time < 0.0:
+            self.world.remove_entity(self)
+            self.world.fire_count -= 1
         
         if self.frame_timer < 0:
             self.frame_timer = FRAME_TIME

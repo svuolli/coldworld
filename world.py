@@ -14,6 +14,9 @@ class World(object):
         self.background = pygame.surface.Surface(SPLIT_SCREEN_SIZE).convert()
         self.background.fill((255, 255, 255))
         self.grid = MapGrid(self)
+
+        self.hare_count = 0
+        self.fire_count = 0
         
         self.position_sorted = []
         for y in range(0, SCREEN_SIZE[1]):

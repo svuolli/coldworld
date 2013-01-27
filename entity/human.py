@@ -129,6 +129,7 @@ class Human(GameEntity):
         if hare:
             self.hunger = min(self.hunger+20.0, 120.0)
             self.world.remove_entity(hare)
+            self.world.hare_count -= 1
             self.sounds["eat"].play()
         fire = self.world.get_close_entity("fire", self.location, 80)
         if fire:

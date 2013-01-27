@@ -35,7 +35,13 @@ class InGameState(GameState):
         self.player = MusicPlayer()       
         self.wait_for_song = 1200
         self.music_playing = False
+
+        self.hare_timer = 1.0
+        self.hare_timer_add = 1.0
         
+        self.fire_timer = 1.0
+        self.fire_timer_add = 1.0
+
         for i in xrange(3):
             filename = "images/fire%i.png" % (i+1)
             image = pygame.image.load(filename).convert_alpha()
@@ -70,11 +76,13 @@ class InGameState(GameState):
             fire = Fire(self.world, self.fire_images)
             fire.location = self.get_safe_spot()
             self.world.add_entity(fire)
+            self.world.fire_count += 1
 
         for water_count in xrange(randint(5, 10)):
             water = Water(self.world, self.water_images)
             water.location = self.get_safe_spot()
             self.world.add_entity(water)
+            self.world.hare_count += 1
 
     def onEvent(self, event):
         if event.type == KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -93,18 +101,37 @@ class InGameState(GameState):
             state_list.pop()
             return
 
-        if randint(1, 100) <= 10:
+        if self.world.hare_count < 30:
+            self.hare_timer -= passed_time
+
+        if self.hare_timer < 0.0:
             hare = Hare(self.world, self.hare_images_lf, self.hare_images_rf)
             hare.location = self.get_safe_spot()
             hare.heading = choice([Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 1)])
             self.world.add_entity(hare)
+            self.hare_timer = self.hare_timer_add
+            self.hare_timer_add += randint(2, 5)
+            self.world.hare_count += 1
+            print "hare spawned"
+
+        if self.world.fire_count < 30:
+            self.fire_timer -= passed_time
+
+        if self.fire_timer < 0.0:
+            fire = Fire(self.world, self.fire_images)
+            fire.location = self.get_safe_spot()
+            self.world.add_entity(fire)
+            self.world.fire_count += 1
+            self.fire_timer = self.fire_timer_add
+            self.fire_timer_add += randint(2, 5)
+            print "fire spawned"
 
         if not self.music_playing:
             self.wait_for_song -= passed_time            
             if self.wait_for_song < 0.0:
                 self.player.PlayTrack()
                 self.music_playing = True
-                self.wait_for_song = randint(5000,20000)
+                self.wait_for_song = randint(5000, 20000)
                 
         self.world.process(passed_time)
 
