@@ -5,6 +5,7 @@ from random import randint, choice
 from gameobjects.vector2 import Vector2
 
 from ingamestate import InGameState
+from titlestate import TitleState
 
 from locals import *
 
@@ -13,7 +14,7 @@ def run():
     screen = pygame.display.set_mode(SCREEN_SIZE, 0, 32)
     
     clock = pygame.time.Clock()    
-    state_list = [InGameState()]
+    state_list = [TitleState()]
     
     while len(state_list) > 0:
         current_state = state_list[-1]
