@@ -61,8 +61,8 @@ class GameEntity(object):
         new_pos = self.location + amount
         collide = self.world.grid.getBlock(int(new_pos.x/64), int(new_pos.y/64)) != None
         collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int(new_pos.y/64)) != None)
-        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-48)/64)) != None)
-        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-48)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x)/64), int((new_pos.y-32)/64)) != None)
+        collide = collide or (self.world.grid.getBlock(int((new_pos.x-32)/64), int((new_pos.y-32)/64)) != None)
         if collide:
             self.on_collide()
         else:

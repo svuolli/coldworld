@@ -54,7 +54,7 @@ class InGameState(GameState):
 
         for human_count in xrange(2):
             human_red = Human(self.world, human_count+1)
-            human_red.location = Vector2(randint(0, 640), randint(0, 480))
+            human_red.location = self.get_safe_spot()
             self.world.add_entity(human_red)
             self.humans.append(human_red)
             offset = human_count*SCREEN_SIZE[0]/2+1
@@ -64,7 +64,7 @@ class InGameState(GameState):
 
         for fire_count in xrange(randint(10,50)):
             fire = Fire(self.world, self.fire_images)
-            fire.location = Vector2(randint(0, WORLD_SIZE[0]), randint(0, WORLD_SIZE[1])) * BLOCK_SIZE
+            fire.location = self.get_safe_spot()
             self.world.add_entity(fire)
 
     def onEvent(self, event):
@@ -73,17 +73,21 @@ class InGameState(GameState):
         if event.type == AudioSystem.SONG_END:
             self.music_playing = False
             
-            
+    def get_safe_spot(self):
+        while True:
+            p = (randint(1, WORLD_SIZE[0]-1), randint(1, WORLD_SIZE[1]-1))
+            if not self.world.grid.getBlock(p[0], p[1]):
+                return Vector2(p[0], p[1]) * BLOCK_SIZE
 
     def update(self, passed_time, state_list):
         if self.done:
             state_list.pop()
             return
 
-        if randint(1, 100) <= 2:
+        if randint(1, 100) <= 10:
             hare = Hare(self.world, self.hare_images_lf, self.hare_images_rf)
-            hare.location = Vector2(-50, randint(0, 480))
-            hare.heading = Vector2(1, 0)            
+            hare.location = self.get_safe_spot()
+            hare.heading = choice([Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1), Vector2(0, 1)])
             self.world.add_entity(hare)
 
         if not self.music_playing:
