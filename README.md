@@ -1,7 +1,7 @@
 Cold World - The Tale of Aslak and Davy
 =======================================
 
-![https://github.com/svuolli/coldworld/blob/master/images/aslak1.png?raw=true](Aslak)
+![http://globalgamejam.org/sites/default/files/styles/large/public/screenshots/2013/2013-01-26%2017.47.36.jpg](Aslak)
 
 > "The frest taste of the arctic water,  
 the juicy flesh of the northern hare  
