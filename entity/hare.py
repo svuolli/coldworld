@@ -2,6 +2,7 @@ import pygame
 from random import randint, choice
 
 from gameentity import GameEntity
+from state.harestates import *
 
 from locals import *
 
@@ -13,12 +14,23 @@ class Hare(GameEntity):
         GameEntity.__init__(self, world, "hare", None)
         # self.dead_image = pygame.transform.flip(image, 0, 1)
         self.health = 25
-        self.max_speed = 130. + randint(-20, 20)
+        self.max_speed = 0
         self.current_frame = 0
         self.frame_timer = FRAME_TIME
         self.images_lf = images_lf
         self.images_rf = images_rf
         self.left_facing = False
+        
+        self.human_chasing = None
+        self.amount_ran = 0.0
+        
+        exploring_state = HareStateExploring(self)
+        fleeing_state = HareStateFleeing(self)
+        
+        self.brain.add_state(exploring_state)
+        self.brain.add_state(fleeing_state)
+        
+        self.brain.set_state("exploring")
         
     def bitten(self):
         
@@ -36,10 +48,13 @@ class Hare(GameEntity):
         surface.blit(image, (x-w/2, y-h))
         
     def on_collide(self):
-        self.heading = -self.heading
+        old_heading = self.heading
+        while old_heading == self.heading or self.heading.get_length == 0:
+            self.heading = Vector2(randint(-1, 1), randint(-1, 1))
 
     def process(self, time_passed):
         self.frame_timer -= time_passed
+        self.amount_ran += time_passed * self.max_speed
         if self.frame_timer < 0:
             self.frame_timer = FRAME_TIME
             self.current_frame += 1
