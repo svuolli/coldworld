@@ -36,6 +36,10 @@ class Human(GameEntity):
         self.max_speed = 180.        
         self.player_number = playernumber
 
+        self.hunger = 100.0
+        self.thirst = 100.0
+        self.heat = 100.0
+
         self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav")}
         
         self.x_heading = 0
@@ -89,6 +93,9 @@ class Human(GameEntity):
         surface.blit(image, (x-w/2, y-h))
             
     def process(self, time_passed):
+        self.hunger -= time_passed
+        self.thirst -= time_passed
+        self.heat -= time_passed
     
         pressed = pygame.key.get_pressed()
         move_vector = (0, 0)
@@ -114,6 +121,15 @@ class Human(GameEntity):
                 self.current_frame += 1
                 if self.current_frame >= len(self.images_rf):
                     self.current_frame = 0
-
     
         GameEntity.process(self, time_passed)
+        hare = self.world.get_close_entity("hare", self.location, 80)
+        if hare:
+            self.hunger = min(self.hunger+20.0, 120.0)
+            self.world.remove_entity(hare)
+        fire = self.world.get_close_entity("fire", self.location, 80)
+        if fire:
+            self.heat = min(self.heat+time_passed*5.0, 120)
+
+        if self.hunger < 0.0 or self.heat < 0.0:
+            self.world.remove_entity(self)
