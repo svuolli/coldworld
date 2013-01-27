@@ -1,7 +1,7 @@
 import pygame
  
  
-class imagestriploader(object):
+class ImageStripLoader(object):
 
     def __init__(self, filename):
     
@@ -15,8 +15,10 @@ class imagestriploader(object):
         rectangle = pygame.Rect(rectangle_)
         image = pygame.Surface(rectangle.size).convert()
         image.blit(self.strip, (0, 0), rectangle)
+        colorkey = image.get_at((0, 0))
+        image.set_colorkey(colorkey, pygame.RLEACCEL)
         return image
         
     def images_from_coordinates(self, rectangles):
     
-        return [self.image_from_coordinates(rectangle) for r in rectangles]
+        return [self.image_from_coordinates(r) for r in rectangles]

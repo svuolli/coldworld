@@ -37,8 +37,11 @@ class Human(GameEntity):
         self.player_number = playernumber
 
         self.hunger = 100.0
+        self.hunger_image_index = 0
         self.thirst = 100.0
+        self.thirst_image_index = 0
         self.heat = 100.0
+        self.heat_image_index = 0
 
         self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav"),
                 "eat":pygame.mixer.Sound("audio/eat.wav"),
@@ -140,3 +143,8 @@ class Human(GameEntity):
 
         if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)
+            
+        
+        self.hunger_image_index = min(5,int(6.0*self.hunger/120.0))
+        self.thirst_image_index = min(5,int(6.0*self.thirst/120.0))
+        self.heat_image_index = min(5,int(6.0*self.heat/120.0))
