@@ -26,3 +26,14 @@ Touch rabbits to kill them, then stay near them to eat their meat.
 Have fun!
 
 -----
+
+Credits:
+Jaakko Saarenketo, production, game design, music
+Sami Vuolli, software development
+Mika Koponen, art, game design
+Mikko Päivärinta, game design, audio
+Juha Laakko, software development
+Antti Kukkonen, software development
+
+Sound effects by: bwaw, gmarchisio, mallement (www.freesound.org)
+Game objects library Will McGugan
