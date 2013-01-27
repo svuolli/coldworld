@@ -40,6 +40,8 @@ class Human(GameEntity):
         self.thirst = 100.0
         self.heat = 100.0
 
+        self.age = 0.0
+
         self.sounds = {"walk":pygame.mixer.Sound("audio/running_in_snow.wav"),
                 "eat":pygame.mixer.Sound("audio/eat.wav"),
                 }
@@ -98,6 +100,7 @@ class Human(GameEntity):
         self.hunger -= time_passed*2.5
         self.thirst -= time_passed*2.5
         self.heat -= time_passed*2.5
+        self.age += time_passed
     
         pressed = pygame.key.get_pressed()
         move_vector = (0, 0)

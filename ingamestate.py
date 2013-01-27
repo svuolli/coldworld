@@ -20,6 +20,8 @@ from AudioSystem import MusicPlayer
 ground_tile_fmt = "images/ground%i.png"
 ground_tiles = map(lambda i: ground_tile_fmt % (i+1), xrange(6))
 
+from endstate import EndState
+
 class InGameState(GameState):
     def __init__(self):
         self.done = False
@@ -99,6 +101,9 @@ class InGameState(GameState):
     def update(self, passed_time, state_list):
         if self.world.human_count < 1:
             done = True
+            state_list.pop()
+            state_list.append(EndState(self.humans[0].age, self.humans[1].age))
+            return
         if self.done:
             state_list.pop()
             return
