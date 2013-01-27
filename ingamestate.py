@@ -6,6 +6,7 @@ from random import randint, choice
 from locals import *
 
 from gameobjects.vector2 import Vector2
+from imagestriploader import ImageStripLoader
 
 from gamestate import GameState
 from world import World
@@ -63,6 +64,22 @@ class InGameState(GameState):
 
         self.humans = []
         self.viewports = []
+        
+        loader = ImageStripLoader("images/hunger_strip.png")
+        self.world.hunger_images = []
+        self.world.hunger_images = loader.images_from_coordinates((
+            (0,0,64,64),(64,0,64,64),(128,0,64,64),(192,0,64,64),(256,0,64,64),(320,0,64,64),
+        ))
+        loader = ImageStripLoader("images/thirst_strip.png")
+        self.world.thirst_images = []
+        self.world.thirst_images = loader.images_from_coordinates((
+            (0,0,64,64),(64,0,64,64),(128,0,64,64),(192,0,64,64),(256,0,64,64),(320,0,64,64),
+        ))
+        loader = ImageStripLoader("images/warmth_strip.png")
+        self.world.warmth_images = []
+        self.world.warmth_images = loader.images_from_coordinates((
+            (0,0,64,64),(64,0,64,64),(128,0,64,64),(192,0,64,64),(256,0,64,64),(320,0,64,64),
+        ))
 
         for human_count in xrange(2):
             human_red = Human(self.world, human_count+1)
@@ -156,9 +173,13 @@ class InGameState(GameState):
         for viewport in self.viewports:
             viewport.render(screen)
         for plr in xrange(2):
-            x = plr*640 + 260
-            y = 20
-            screen.fill((0, 255, 0), (x, y+00, int(self.humans[plr].hunger), 10))
-            screen.fill((0, 0, 255), (x, y+10, int(self.humans[plr].thirst), 10))
-            screen.fill((255, 0, 0), (x, y+20, int(self.humans[plr].heat), 10))
+            x = plr*640 + 16
+            y = 16
+            #screen.fill((0, 255, 0), (x, y+00, int(self.humans[plr].hunger), 10))
+            #screen.fill((0, 0, 255), (x, y+10, int(self.humans[plr].thirst), 10))
+            #screen.fill((255, 0, 0), (x, y+20, int(self.humans[plr].heat), 10))
+        
+            screen.blit(self.world.hunger_images[self.humans[plr].hunger_image_index], (x,y))
+            screen.blit(self.world.thirst_images[self.humans[plr].thirst_image_index], (x,y))
+            screen.blit(self.world.warmth_images[self.humans[plr].heat_image_index], (x,y))
 

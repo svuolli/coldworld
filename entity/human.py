@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from gameobjects.vector2 import Vector2
 from locals import *
 
@@ -37,8 +37,11 @@ class Human(GameEntity):
         self.player_number = playernumber
 
         self.hunger = 100.0
+        self.hunger_image_index = 0
         self.thirst = 100.0
+        self.thirst_image_index = 0
         self.heat = 100.0
+        self.heat_image_index = 0
 
         self.age = 0.0
 
@@ -49,18 +52,18 @@ class Human(GameEntity):
         self.x_heading = 0
         self.y_heading = 0
 
-        if(pygame.joystick.get_count() > JOYSTICK_IN_USE):
+        if(pygame.joystick.get_count() > self.world.joystick_in_use):
             self.setup_joystick()
         else:
             self.joycontrol = -1
             self.init_keymap(self.player_number)
 
     def setup_joystick(self):
-        joy_n = JOYSTICK_IN_USE        
+        joy_n = self.world.joystick_in_use
         self.joycontrol = joy_n
         self.joystick = pygame.joystick.Joystick(joy_n)
         self.joystick.init()
-        JOYSTICK_IN_USE +=1
+        self.world.joystick_in_use +=1
 
     def start_walking_sound(self):
         self.sounds["walk"].play(-1)
@@ -110,6 +113,12 @@ class Human(GameEntity):
         else:
             x = self.joystick.get_axis(0)
             y = self.joystick.get_axis(1)
+
+            if math.fabs(x) < 0.1:
+                x = 0.
+            if math.fabs(y) < 0.1:
+                y = 0.
+                
             move_vector = Vector2(x,y)
             
 
@@ -144,3 +153,7 @@ class Human(GameEntity):
         if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)
             self.world.human_count -= 1
+        
+        self.hunger_image_index = min(5,int(6.0*self.hunger/120.0))
+        self.thirst_image_index = min(5,int(6.0*self.thirst/120.0))
+        self.heat_image_index = min(5,int(6.0*self.heat/120.0))
