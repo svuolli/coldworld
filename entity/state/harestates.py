@@ -33,7 +33,7 @@ class HareStateExploring(State):
     
     def entry_actions(self):
         
-        self.hare.max_speed = 90. + randint(-10, 20)
+        self.hare.max_speed = 120. + randint(-10, 20)
         self.random_destination()
         
         
@@ -61,4 +61,4 @@ class HareStateFleeing(State):
             if not self.started_running:
                 self.hare.heading = self.hare.human_chasing.heading
                 self.started_running = True
-            self.hare.max_speed = 180. + randint(0, 20)
+            self.hare.max_speed = 200. + randint(0, 20)

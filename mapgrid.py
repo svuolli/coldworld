@@ -18,7 +18,12 @@ class MapGrid(object):
             "tree1.png",
             "tree2.png",
             "tree3.png",
-            "tree4.png"])
+            "tree4.png",
+            "tree5.png",
+            "tree6.png",
+            "tree8.png",
+            "tree9.png",
+            "tree10.png"])
         print self.images
 
         for line_num in xrange(WORLD_SIZE[1]):
@@ -47,7 +52,8 @@ class MapGrid(object):
         return self.grid[y][x]
 
     def render(self, line_num, surface, offset):
-        start_index = min(int(offset.x) / BLOCK_SIZE, WORLD_SIZE[0])
+        start_index = min(int(offset.x-64) / BLOCK_SIZE, WORLD_SIZE[0])
+        start_index = max(0, start_index)
         end_index = min(start_index + 12, WORLD_SIZE[0])
         line = self.grid[line_num]
         for cell in xrange(start_index, end_index):
