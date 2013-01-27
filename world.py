@@ -17,6 +17,7 @@ class World(object):
 
         self.hare_count = 0
         self.fire_count = 0
+        self.human_count = 2
         
         self.position_sorted = []
         for y in range(0, SCREEN_SIZE[1]):

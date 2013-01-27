@@ -143,7 +143,7 @@ class Human(GameEntity):
 
         if self.hunger < 0.0 or self.heat < 0.0 or self.thirst < 0.0:
             self.world.remove_entity(self)
-            
+            self.world.human_count -= 1
         
         self.hunger_image_index = min(5,int(6.0*self.hunger/120.0))
         self.thirst_image_index = min(5,int(6.0*self.thirst/120.0))

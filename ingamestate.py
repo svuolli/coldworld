@@ -114,6 +114,8 @@ class InGameState(GameState):
                 return Vector2(p[0], p[1]) * BLOCK_SIZE
 
     def update(self, passed_time, state_list):
+        if self.world.human_count < 1:
+            done = True
         if self.done:
             state_list.pop()
             return
