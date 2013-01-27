@@ -35,6 +35,9 @@ class Hare(GameEntity):
         w, h = image.get_size()
         surface.blit(image, (x-w/2, y-h))
         
+    def on_collide(self):
+        self.heading = -self.heading
+
     def process(self, time_passed):
         self.frame_timer -= time_passed
         if self.frame_timer < 0:
@@ -49,3 +52,7 @@ class Hare(GameEntity):
             return
         
         GameEntity.process(self, time_passed)
+        if self.heading.x < 0.0:
+            self.left_facing = True
+        elif self.heading.x > 0.0:
+            self.left_facing = False

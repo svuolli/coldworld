@@ -25,7 +25,13 @@ class MapGrid(object):
             line = []
             y = line_num * BLOCK_SIZE
             for cell in xrange(WORLD_SIZE[0]):
-                if randint(0, 99) < 4:
+                on_edge = False
+                if cell==0 or cell==WORLD_SIZE[0]-1:
+                    on_edge = True
+                if line_num==0 or line_num==WORLD_SIZE[1]-1:
+                    on_edge = True
+
+                if on_edge or randint(0, 99) < 4:
                     x = cell * BLOCK_SIZE
                     block = Block(world, choice(self.images))
                     image_size = block.image.get_size()
